@@ -6,6 +6,21 @@ This project shows the core backend path of an AdTech bidding service: receive a
 
 It is intentionally small, but the design follows production-friendly boundaries so it is easy to discuss how the in-memory demo can evolve into Redis, Kafka, database-backed campaign management, and production observability.
 
+## Live Demo
+
+Public demo:
+
+[https://mini-rtb-engine.onrender.com](https://mini-rtb-engine.onrender.com)
+
+The demo is hosted on Render's free web service plan. If it has been idle, the first request may take around 50 seconds while the service wakes up.
+
+Try this flow:
+
+1. Open the live dashboard.
+2. Click `Run bid burst`.
+3. Watch match rate, latency, QPS, winning creative, top campaign, and event stream update.
+4. Click `Simulate click` to update CTR from the click event path.
+
 ## Dashboard Preview
 
 ![Mini RTB dashboard overview](docs/images/dashboard-overview.png)
@@ -25,7 +40,7 @@ The dashboard is built to make the backend behavior visible during a short demo:
 - Impression and click events projected into metrics, so CTR and top campaigns come from ad events.
 - Operational metrics for total bids, match rate, average latency, p95/p99 latency, QPS, impressions, clicks, CTR, and top campaigns.
 - Demo-only reset endpoint guarded by configuration, so local demos stay convenient without mixing demo controls into production mode.
-- Static dashboard served by Spring Boot at `http://localhost:8080`.
+- Static dashboard served by Spring Boot locally and on the public Render demo.
 
 Default local mode uses H2 for bootstrapping and in-memory stores for the bidding demo, so the project can run without Docker, MySQL, Redis, or Kafka.
 
