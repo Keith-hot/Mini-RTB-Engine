@@ -81,6 +81,12 @@ flowchart LR
 
 `docker-compose.yml` includes MySQL, Redis, Kafka, and the app as a deployment scaffold. The current business logic does not yet persist campaigns to MySQL or publish events to Kafka by default; those are the next production adapters to implement.
 
+## Correctness Notes
+
+- Click events must reference a known impression request, and each impression can be clicked only once. This keeps the demo CTR from being inflated by duplicate or fake click requests.
+- The in-memory admission store uses a synchronized check-and-update step so budget and per-user frequency caps are enforced atomically inside the demo process.
+- In production, the same admission boundary would move to Redis Lua or a strongly consistent admission service, while impression/click publication would use Kafka with retry, idempotency, and optionally an outbox pattern.
+
 ## Why It Fits an AdTech Backend Role
 
 - RTB systems care about request-path latency, so the bid endpoint avoids slow dependencies.
