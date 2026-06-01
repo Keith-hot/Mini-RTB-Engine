@@ -175,6 +175,7 @@ curl -X POST http://localhost:8080/api/events/click \
   -H "Content-Type: application/json" \
   -d '{
     "requestId": "req-1001-click",
+    "impressionRequestId": "req-1001",
     "userId": "user-42",
     "campaignId": 101
   }'
@@ -191,7 +192,7 @@ curl http://localhost:8080/api/metrics
 1. Open the dashboard.
 2. Click `Run bid burst`.
 3. Explain the path: campaign match, admission check, winner selection, impression event, and metrics projection.
-4. Show `Match rate`, `p95 latency`, `p99 latency`, `Current QPS`, CTR, and top campaigns changing.
+4. Show `Match rate`, `p95 latency`, `p99 latency`, `60s avg QPS`, CTR, and top campaigns changing.
 5. Click `Simulate click` and show CTR updating from the event stream.
 6. Explain the production path: MySQL for campaign source of truth, Redis for hot atomic admission, Kafka for event streaming, and Prometheus/Grafana for observability.
 
@@ -223,7 +224,7 @@ Current tests cover:
 - click request validation
 - bounded event publisher behavior
 - event type projection for impressions and clicks
-- average latency, p95/p99 latency, match rate, recent QPS, event-projected CTR, and top campaign metrics
+- average latency, p95/p99 latency, match rate, 60s average QPS, event-projected CTR, and top campaign metrics
 
 Run:
 

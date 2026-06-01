@@ -31,7 +31,7 @@ async function loadMetrics() {
   document.querySelector("#avgLatency").textContent = `${metrics.averageLatencyMs.toFixed(1)} ms`;
   document.querySelector("#p95Latency").textContent = `${metrics.p95LatencyMs} ms`;
   document.querySelector("#p99Latency").textContent = `${metrics.p99LatencyMs} ms`;
-  document.querySelector("#currentQps").textContent = Number(metrics.currentQps).toFixed(2);
+  document.querySelector("#qpsLast60s").textContent = Number(metrics.qpsLast60s).toFixed(2);
   document.querySelector("#recentBids").textContent = `${metrics.recentBidRequests} bids / 60s`;
   document.querySelector("#ctr").textContent = `${(metrics.ctr * 100).toFixed(1)}%`;
   document.querySelector("#clickCount").textContent = `${metrics.clicks} clicks`;
@@ -155,7 +155,7 @@ function clearDemoView() {
   document.querySelector("#avgLatency").textContent = "0.0 ms";
   document.querySelector("#p95Latency").textContent = "0 ms";
   document.querySelector("#p99Latency").textContent = "0 ms";
-  document.querySelector("#currentQps").textContent = "0.00";
+  document.querySelector("#qpsLast60s").textContent = "0.00";
   document.querySelector("#recentBids").textContent = "0 bids / 60s";
   document.querySelector("#ctr").textContent = "0.0%";
   document.querySelector("#clickCount").textContent = "0 clicks";
@@ -184,6 +184,7 @@ async function simulateClick() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         requestId: `${request.requestId}-click`,
+        impressionRequestId: request.requestId,
         userId: request.userId,
         campaignId: response.campaignId
       })

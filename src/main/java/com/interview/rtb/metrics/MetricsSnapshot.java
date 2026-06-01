@@ -11,7 +11,7 @@ public record MetricsSnapshot(
         long p95LatencyMs,
         long p99LatencyMs,
         long recentBidRequests,
-        double currentQps,
+        double qpsLast60s,
         long impressions,
         long clicks,
         double ctr,

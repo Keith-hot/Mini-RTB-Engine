@@ -25,6 +25,9 @@ class EventControllerValidationTest {
     @MockBean
     private AdEventPublisher publisher;
 
+    @MockBean
+    private ClickAttributionStore clickAttributionStore;
+
     @Test
     void rejectsEmptyClickRequest() throws Exception {
         mockMvc.perform(post("/api/events/click")

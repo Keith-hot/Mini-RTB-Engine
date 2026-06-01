@@ -5,6 +5,7 @@ import com.interview.rtb.campaign.Campaign;
 import com.interview.rtb.campaign.CampaignStatus;
 import com.interview.rtb.campaign.Creative;
 import com.interview.rtb.event.AdEvent;
+import com.interview.rtb.event.ClickAttributionStore;
 import com.interview.rtb.event.InMemoryAdEventPublisher;
 import com.interview.rtb.metrics.MetricsRecorder;
 import com.interview.rtb.metrics.MetricsSnapshot;
@@ -26,12 +27,15 @@ class InMemoryDemoStateResetterTest {
     void resetsAdmissionEventsAndMetrics() {
         InMemoryCampaignAdmissionStore admissionStore = new InMemoryCampaignAdmissionStore(clock);
         InMemoryAdEventPublisher eventPublisher = new InMemoryAdEventPublisher();
+        ClickAttributionStore clickAttributionStore = new ClickAttributionStore();
         MetricsRecorder metricsRecorder = new MetricsRecorder(clock);
-        InMemoryDemoStateResetter resetter = new InMemoryDemoStateResetter(admissionStore, eventPublisher, metricsRecorder);
+        InMemoryDemoStateResetter resetter = new InMemoryDemoStateResetter(admissionStore, eventPublisher, clickAttributionStore, metricsRecorder);
         Campaign campaign = campaign();
 
         admissionStore.tryAdmit("user-1", campaign);
-        eventPublisher.publish(AdEvent.impression("req-1", "user-1", campaign.id(), clock.instant()));
+        AdEvent impression = AdEvent.impression("req-1", "user-1", campaign.id(), clock.instant());
+        eventPublisher.publish(impression);
+        clickAttributionStore.record(impression);
         metricsRecorder.recordBid(12, true);
         metricsRecorder.recordImpression(campaign.id());
 
@@ -42,6 +46,8 @@ class InMemoryDemoStateResetterTest {
         assertThat(snapshot.totalBidRequests()).isZero();
         assertThat(snapshot.impressions()).isZero();
         assertThat(admissionStore.tryAdmit("user-1", campaign)).isTrue();
+        assertThat(clickAttributionStore.admitClick("req-1", "user-1", campaign.id()))
+                .isEqualTo(ClickAttributionStore.ClickAdmission.UNKNOWN_IMPRESSION);
     }
 
     private Campaign campaign() {

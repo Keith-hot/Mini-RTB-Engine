@@ -29,7 +29,7 @@ class MetricsRecorderTest {
         assertThat(snapshot.p95LatencyMs()).isEqualTo(28);
         assertThat(snapshot.p99LatencyMs()).isEqualTo(28);
         assertThat(snapshot.recentBidRequests()).isEqualTo(2);
-        assertThat(snapshot.currentQps()).isEqualTo(2.0 / 60.0);
+        assertThat(snapshot.qpsLast60s()).isEqualTo(2.0 / 60.0);
         assertThat(snapshot.impressions()).isEqualTo(2);
         assertThat(snapshot.clicks()).isEqualTo(1);
         assertThat(snapshot.ctr()).isEqualTo(0.5);
