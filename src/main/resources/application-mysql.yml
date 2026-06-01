@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/rtb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: rtb
+    password: rtb
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  kafka:
+    bootstrap-servers: localhost:9092
+
+app:
+  demo:
+    reset-enabled: false

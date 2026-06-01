@@ -1,0 +1,16 @@
+$ProjectRoot = Split-Path -Parent $PSScriptRoot
+$env:JAVA_HOME = "D:\Java\jdk-17.0.19+10"
+$env:Path = "$env:JAVA_HOME\bin;$env:Path"
+$env:MAVEN_OPTS = "-Dmaven.repo.local=$ProjectRoot\.m2\repository"
+$env:GRADLE_USER_HOME = "$ProjectRoot\.gradle"
+$env:JAVA_TOOL_OPTIONS = "-Duser.home=$ProjectRoot\.home"
+
+Write-Host "Development caches are scoped to:"
+Write-Host "  JAVA_HOME: $env:JAVA_HOME"
+Write-Host "  Maven: $ProjectRoot\.m2\repository"
+Write-Host "  Gradle: $ProjectRoot\.gradle"
+Write-Host "  Java user.home: $ProjectRoot\.home"
+Write-Host ""
+Write-Host "Run from this shell:"
+Write-Host "  mvn test"
+Write-Host "  mvn spring-boot:run"

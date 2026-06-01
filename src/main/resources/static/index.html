@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mini RTB Engine</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">AdTech operations dashboard</p>
+        <h1>Mini RTB Engine</h1>
+        <div class="system-line">
+          <span>Live bidder</span>
+          <span>Java 17</span>
+          <span>Spring Boot 3</span>
+        </div>
+      </div>
+      <div class="hero-actions">
+        <div class="health-pill" id="healthStatus" aria-live="polite">
+          <span class="status-dot"></span>
+          Checking health
+        </div>
+        <button id="simulate" type="button">Run bid burst</button>
+        <button id="resetDemo" class="secondary" type="button">Reset demo</button>
+        <button id="clickWinner" class="secondary" type="button" disabled>Simulate click</button>
+      </div>
+    </header>
+
+    <section class="metrics-grid">
+      <article>
+        <span>Total bids</span>
+        <strong id="totalBids">0</strong>
+        <small>requests handled</small>
+      </article>
+      <article>
+        <span>Match rate</span>
+        <strong id="matchRate">0%</strong>
+        <div class="meter"><i id="matchRateBar"></i></div>
+      </article>
+      <article>
+        <span>Avg latency</span>
+        <strong id="avgLatency">0 ms</strong>
+        <small>target p95 &lt; 100ms</small>
+      </article>
+      <article>
+        <span>p95 latency</span>
+        <strong id="p95Latency">0 ms</strong>
+        <small>recent 60s window</small>
+      </article>
+      <article>
+        <span>p99 latency</span>
+        <strong id="p99Latency">0 ms</strong>
+        <small>tail latency guardrail</small>
+      </article>
+      <article>
+        <span>Current QPS</span>
+        <strong id="currentQps">0.00</strong>
+        <small id="recentBids">0 bids / 60s</small>
+      </article>
+      <article>
+        <span>CTR</span>
+        <strong id="ctr">0%</strong>
+        <small id="clickCount">0 clicks</small>
+      </article>
+    </section>
+
+    <section class="command-grid">
+      <article class="creative-stage">
+        <div class="panel-head">
+          <h2>Winning creative</h2>
+          <span id="winnerStatus">waiting for bid</span>
+        </div>
+        <div class="creative-body">
+          <div id="creativePreview" class="creative-preview" hidden>
+            <div class="preview-title">
+              <span>Winning ad analytics</span>
+              <strong id="previewCampaign">Campaign --</strong>
+            </div>
+            <div class="chart-block">
+              <div class="chart-head">
+                <span>Bid response volume</span>
+                <strong id="previewBidPrice">$0.00</strong>
+              </div>
+              <div class="bar-chart" aria-hidden="true">
+                <i style="height: 42%"></i>
+                <i style="height: 68%"></i>
+                <i style="height: 86%"></i>
+                <i style="height: 58%"></i>
+                <i style="height: 76%"></i>
+                <i style="height: 48%"></i>
+                <i style="height: 64%"></i>
+                <i style="height: 92%"></i>
+              </div>
+            </div>
+            <div class="chart-block">
+              <div class="chart-head">
+                <span>Latency trend</span>
+                <strong id="previewLatency">p95 0ms</strong>
+              </div>
+              <svg class="line-chart" viewBox="0 0 420 118" role="img" aria-label="Latency trend chart">
+                <path d="M8 82 C70 34, 104 44, 142 58 S214 104, 260 62 S338 22, 412 44" />
+                <path class="line-soft" d="M8 96 C72 76, 118 82, 164 74 S240 52, 292 66 S356 88, 412 70" />
+              </svg>
+            </div>
+            <div class="preview-metrics">
+              <div><span>Placement</span><strong id="previewPlacement">--</strong></div>
+              <div><span>Country</span><strong id="previewCountry">--</strong></div>
+              <div><span>Segment</span><strong id="previewSegment">--</strong></div>
+            </div>
+          </div>
+          <div id="creativeEmpty" class="empty-state">Run a bid burst to preview the latest winning ad.</div>
+          <div class="creative-copy">
+            <span>Bid decision</span>
+            <strong id="winnerCampaign">No campaign selected</strong>
+            <dl class="decision-list">
+              <div>
+                <dt>Creative</dt>
+                <dd id="winnerCreative">--</dd>
+              </div>
+              <div>
+                <dt>Bid price</dt>
+                <dd id="winnerPrice">$0.00</dd>
+              </div>
+              <div>
+                <dt>Landing</dt>
+                <dd><a id="winnerLanding" href="#" target="_blank" rel="noreferrer">--</a></dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel leaderboard">
+        <div class="panel-head">
+          <h2>Top campaigns</h2>
+          <span>by impressions</span>
+        </div>
+        <div id="topCampaigns" class="leader-list"></div>
+      </article>
+    </section>
+
+    <section class="workspace">
+      <article class="panel">
+        <div class="panel-head">
+          <h2>Campaigns</h2>
+          <span>active cache</span>
+        </div>
+        <div id="campaigns" class="campaign-list"></div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head">
+          <h2>Event stream</h2>
+          <span>win / no bid / click</span>
+        </div>
+        <div id="events" class="event-list"></div>
+      </article>
+    </section>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>
