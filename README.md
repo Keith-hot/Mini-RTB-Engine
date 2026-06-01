@@ -113,6 +113,29 @@ Full infrastructure scaffold:
 docker compose up --build
 ```
 
+## Deploy on Render
+
+This repository includes a `render.yaml` Blueprint and Docker-based deployment setup.
+
+Suggested Render setup:
+
+1. Open Render and choose `New` -> `Blueprint`.
+2. Connect this GitHub repository.
+3. Select the `main` branch.
+4. Keep the detected `mini-rtb-engine` web service on the free plan.
+5. Deploy.
+
+Render provides the public `onrender.com` URL after the first successful deploy.
+
+The app reads Render's `PORT` environment variable through:
+
+```yaml
+server:
+  port: ${PORT:8080}
+```
+
+This keeps local development on `8080` while allowing Render to route public traffic correctly.
+
 ## API Examples
 
 Bid request:
