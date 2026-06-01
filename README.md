@@ -1,6 +1,6 @@
 # Mini RTB Engine
 
-Interview-ready Java 17 / Spring Boot 3 demo for a miniature real-time bidding system.
+A compact Java/Spring Boot reference implementation of a miniature real-time bidding backend, covering bid request handling, campaign eligibility, budget and frequency-cap admission, event-driven metrics, and a live operational dashboard.
 
 This project shows the core backend path of an AdTech bidding service: receive a bid request, find eligible campaigns, enforce budget and frequency caps, choose a winning ad, publish impression/click events, and expose live operational metrics on a dashboard.
 
